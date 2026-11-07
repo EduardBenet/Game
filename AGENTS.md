@@ -43,3 +43,9 @@ small pygame game (a caveman platformer). The goal is to **show how an agentic t
   previous high scores, because old scores are no longer comparable. Reset `highscores.json`
   (the top-5 file) after each such change. This is the one exception to the "do not delete
   files" rule above.
+- `elements.csv` lists every visual element of the game (columns: `id`, `categoria`, `nom`,
+  `mida_px`, `fons_transparent`, `descripcio`, `prompt_imatge`, `fitxer`, `estat`) with an image
+  prompt for each one, so they can be generated as real pictures later. Every time an element is
+  added, removed or changed (new enemy, weapon, fruit, scenery, effect...), update the CSV in the
+  same change. Keep the common style prefix in `prompt_imatge` so all images look made by the same
+  artist. `estat` is `pendent` until the image exists and is used by the game.
