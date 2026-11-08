@@ -55,6 +55,20 @@ The game is published as a **static site** (GitHub Pages) built with **pygbag**
 (`.github/workflows/deploy.yml` → https://eduardbenet.github.io/Game/). The browser build is
 a first-class target, not an afterthought: a change that only works locally is **not done**.
 
+### But the PC version is king (MANDATORY)
+**Never change the game's architecture, structure or design just to suit the web build.**
+The desktop game is the real game; the web build is how other people get to play it. If the
+browser needs something, it gets it in a way that leaves the PC game untouched:
+- Build settings (`deploy.yml`, pygbag flags) — fine, that is not the game.
+- An additive, isolated web-only module (`game/web.py`) guarded by
+  `sys.platform == "emscripten"` and wrapped in `try/except` — fine.
+- A different code structure, renamed modules or packages, a worse abstraction, removed
+  features, or reduced quality/detail because pygbag or a browser would prefer it — **no**.
+If the only way to satisfy the browser is to compromise the desktop game, don't: keep the PC
+version as it is, say plainly what the web limitation is, and leave the choice to the user.
+Performance work is the exception that proves the rule: making the renderer cheaper helps
+both, so it is welcome — as long as the desktop game looks and plays exactly the same.
+
 - Keep the loop async-friendly: every frame must `await asyncio.sleep(0)`. Never block — no
   `time.sleep`, no synchronous network or file waits, no long loops between frames.
 - Budget for the browser, which is slower than the desktop: target a stable **45 FPS**
