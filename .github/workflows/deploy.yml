@@ -27,8 +27,22 @@ jobs:
       - name: Instal·lar pygbag
         run: python -m pip install pygbag
 
+      - name: Comprovar que el joc arrenca (sense pantalla)
+        env:
+          SDL_VIDEODRIVER: dummy
+          SDL_AUDIODRIVER: dummy
+        run: |
+          python -m pip install pygame-ce
+          python main.py --test
+
       - name: Construir el joc per a la web
-        run: python -m pygbag --build .
+        # --width/--height: la mida real del joc (si no, pygbag posa 1280x720)
+        # --ume_block 0: al mobil, no cal tocar primer una pantalla d'espera
+        run: >-
+          python -m pygbag --build
+          --width 1000 --height 600
+          --ume_block 0 --can_close 0
+          --app_name cavernicola --title "Cavernicola" .
 
       - uses: actions/configure-pages@v5
         with:
