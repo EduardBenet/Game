@@ -36,13 +36,13 @@ jobs:
           python main.py --test
 
       - name: Construir el joc per a la web
-        # --width/--height: la mida real del joc (si no, pygbag posa 1280x720)
-        # --ume_block 0: al mobil, no cal tocar primer una pantalla d'espera
+        # Nomes la mida real del joc i el titol. NO toquem --ume_block:
+        # la pantalla d'espera de pygbag es la que deixa arrencar l'audio i el
+        # joc al navegador, i sense ella la pagina es queda grisa.
         run: >-
           python -m pygbag --build
           --width 1000 --height 600
-          --ume_block 0 --can_close 0
-          --app_name cavernicola --title "Cavernicola" .
+          --title "Cavernicola" .
 
       - uses: actions/configure-pages@v5
         with:

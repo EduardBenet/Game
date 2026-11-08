@@ -13,11 +13,10 @@ PAGE_FIX = """
 (function () {
   var css = document.createElement('style');
   css.textContent = [
-    'html, body { margin:0; padding:0; overflow:hidden; background:#000;',
-    '  overscroll-behavior:none; touch-action:none;',
+    'html, body { overscroll-behavior:none; touch-action:none;',
     '  -webkit-user-select:none; user-select:none;',
     '  -webkit-tap-highlight-color:transparent; }',
-    'canvas { touch-action:none !important; display:block; }'
+    'canvas { touch-action:none !important; }'
   ].join('');
   document.head.appendChild(css);
 
@@ -66,8 +65,8 @@ def setup_page():
     try:                                     # pla B, sense `eval`
         win.document.head.insertAdjacentHTML(
             "beforeend",
-            "<style>html,body{margin:0;overflow:hidden;overscroll-behavior:none;"
-            "touch-action:none;user-select:none;-webkit-user-select:none}"
+            "<style>html,body{overscroll-behavior:none;touch-action:none;"
+            "user-select:none;-webkit-user-select:none}"
             "canvas{touch-action:none !important}</style>")
         return True
     except Exception:
