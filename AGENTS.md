@@ -76,6 +76,15 @@ both, so it is welcome — as long as the desktop game looks and plays exactly t
   into a cached `Surface` instead of redrawing it with primitives every frame.
 - Keep the download small. No new large assets; generated/procedural art is preferred. If
   images are added, keep the whole bundle to a few MB and load them once at startup.
+- **`main.py` has two shapes pygbag requires. Do not "tidy" them away:** `import pygame`
+  at the top (pygbag scans the entry point's imports to decide which wheels to download —
+  without it the page loads the archive, never fetches pygame, and sits on a grey screen),
+  and `async def main()` defined in that file. Both look redundant on desktop. They are not.
+- **Test the browser build before claiming it works.** Headless Edge/Chrome + `puppeteer-core`
+  against `python -m pygbag --port 8000 .` reproduces the real thing: check the canvas is
+  `1000x600` and not `1x1` (1x1 == the grey screen), and read the console. Always run the
+  previous working commit through the same harness first — without a passing baseline you
+  cannot tell your bug from the harness's.
 - Guard anything the browser cannot do with `sys.platform == "emscripten"` (already done for
   `display.set_mode`). Note that **file writes do not persist in the browser**: the
   `highscores.json` top-5 survives locally but is lost on reload on the web — keep the write
