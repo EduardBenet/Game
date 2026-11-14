@@ -32,10 +32,10 @@ MAMMOTH_SPAWN_GAP_MIN = 0.5  # i al final (van sortint mes depressa)
 MAMMOTH_GAP_SHRINK = 60.0    # segons fins arribar al minim
 
 # --- el 67: molt rar, i et passa de nivell --------------------------------
-GOLD_FIRST = (18.0, 32.0)    # quan pot sortir el primer 67 (segons)
-GOLD_AGAIN = (14.0, 26.0)    # si marxa, quan torna
+GOLD_FIRST = (45.0, 75.0)    # quan pot sortir el primer 67 (segons)
+GOLD_AGAIN = (40.0, 70.0)    # si marxa, quan torna
 GOLD_DANCE = 2.0             # segons de ball del 67 abans del final
-GOLD_STAY = 11.0             # quant es queda a la pantalla
+GOLD_STAY = 8.0              # quant es queda a la pantalla
 
 # --- puntuacio ------------------------------------------------------------
 COMBO_SECONDS = 3.0
