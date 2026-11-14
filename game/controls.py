@@ -15,7 +15,7 @@ d = pygame.draw
 BUTTONS = [
     ("left",    88, H - 78, 50, "<"),
     ("right",  200, H - 78, 50, ">"),
-    ("attack", W - 210, H - 152, 46, "M"),
+    ("attack", W - 210, H - 152, 46, "Z"),
     ("jump",   W - 92, H - 78, 58, "^"),
 ]
 
@@ -152,5 +152,5 @@ class Controls:
 
     def help_text(self):
         if self.touch_ui:
-            return "Toca < > per moure't  ·  ^ per saltar  ·  M per l'arma"
-        return "Fletxes: moure  ·  Espai: saltar  ·  M: usar l'arma  ·  Esc: sortir"
+            return "Toca < > per moure't  ·  ^ per saltar  ·  Z per l'arma"
+        return "Fletxes: moure  ·  Fletxa amunt: saltar  ·  Z: usar l'arma  ·  Esc: sortir"

@@ -105,7 +105,7 @@ both, so it is welcome — as long as the desktop game looks and plays exactly t
 - Smoke-test headless after edits: `SDL_VIDEODRIVER=dummy SDL_AUDIODRIVER=dummy ./venv/bin/python main.py --test`
   (runs a few frames and exits). Keep `--test` working.
 - Do not break working features when adding new ones. Keep controls: arrows/A-D move,
-  SPACE jump, ESC quit.
+  UP arrow jump, Z attack, ESC quit.
 - Do not use git, delete files, or touch anything outside this folder unless asked.
 - Every functional change to the game (anything that changes how it plays) erases the
   previous high scores, because old scores are no longer comparable. Reset `highscores.json`

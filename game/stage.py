@@ -194,9 +194,9 @@ class Stage:
         """Tecles que son un cop sol (no aguantades)."""
         if self.over:
             return self._handle_result_key(event)
-        if event.key == pygame.K_SPACE:
+        if event.key == pygame.K_UP:
             self.player.jump()
-        elif event.key == pygame.K_m:
+        elif event.key == pygame.K_z:
             self.fire()
         return None
 

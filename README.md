@@ -15,7 +15,7 @@ Atrapa fruites, fes fora els mamuts i busca el **67 daurat**: quan l'agafis, niv
 
 ## Controls
 
-**Ordinador** · Fletxes (o A/D): moure · Espai: saltar (doble salt a l'aire) · M: usar l'arma · Esc: sortir
+**Ordinador** · Fletxes (o A/D): moure · Fletxa amunt: saltar (doble salt a l'aire) · Z: usar l'arma · Esc: sortir
 
 **Mòbil i tauleta** · Botons a la pantalla: `<` `>` per moure, `^` per saltar, `M` per l'arma.
 Millor amb el mòbil de costat (el joc t'ho recorda si el tens dret).
