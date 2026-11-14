@@ -23,14 +23,18 @@ STEAKS_PER_LIFE = 10
 LIVES_MAX = 9
 
 # --- mamuts: no s'acaben mai, cada cop n'hi ha mes ------------------------
-MAMMOTH_START = 2            # quants n'hi ha al comencar
-MAMMOTH_EVERY = 18.0         # cada X segons el maxim puja en 1
+MAMMOTH_START = 1            # quants n'hi ha al comencar
+MAMMOTH_EVERY = 18.0         # escala de temps: a X segons n'hi ha 1 mes, despres puja cada cop mes rapid
+MAMMOTH_RAMP = 1.6           # >1 = cada cop mes rapid (1 = ritme constant)
 MAMMOTH_MAX = 14
-MAMMOTH_SPAWN_GAP = 1.6      # segons entre aparicions
+MAMMOTH_SPAWN_GAP = 1.6      # segons entre aparicions al principi
+MAMMOTH_SPAWN_GAP_MIN = 0.5  # i al final (van sortint mes depressa)
+MAMMOTH_GAP_SHRINK = 60.0    # segons fins arribar al minim
 
 # --- el 67: molt rar, i et passa de nivell --------------------------------
 GOLD_FIRST = (18.0, 32.0)    # quan pot sortir el primer 67 (segons)
 GOLD_AGAIN = (14.0, 26.0)    # si marxa, quan torna
+GOLD_DANCE = 2.0             # segons de ball del 67 abans del final
 GOLD_STAY = 11.0             # quant es queda a la pantalla
 
 # --- puntuacio ------------------------------------------------------------

@@ -10,8 +10,9 @@ import pygame
 
 from . import art, entities, hud, level as level_mod, scenery, scores, weapons
 from .config import (W, H, FPS, GROUND, HOLE_X0, HOLE_X1, LIVES_START, LIVES_MAX,
-                     STEAKS_PER_LIFE, MAMMOTH_SPAWN_GAP, GOLD_FIRST, GOLD_AGAIN,
-                     GOLD_STAY, COMBO_SECONDS, COMBO_MAX, HURT_FRAMES,
+                     STEAKS_PER_LIFE, MAMMOTH_SPAWN_GAP, MAMMOTH_SPAWN_GAP_MIN,
+                     MAMMOTH_GAP_SHRINK, MAMMOTH_RAMP, GOLD_FIRST, GOLD_AGAIN,
+                     GOLD_STAY, GOLD_DANCE, COMBO_SECONDS, COMBO_MAX, HURT_FRAMES,
                      TIME_PENALTY_EVERY, HIT_TIME_PENALTY, PICKUP_LIFE)
 
 d = pygame.draw
@@ -106,7 +107,7 @@ class Result:
         self.base = base
         self.bonus = bonus
         self.penalty = penalty
-        self.name = "" if scores.would_enter(score, secs) else None
+        self.name = "" if won and scores.would_enter(score, secs) else None
         self.top = scores.load()
         self.rank = -1
         self.confetti = []
@@ -155,6 +156,7 @@ class Stage:
         self.spawn_gap = 0
         self.gold = None
         self.gold_timer = _secs(GOLD_FIRST)
+        self.dance = 0              # fotogrames de ball que queden despres del 67
         self.result = None
 
     # ---------------------------------------------------------- comoditats --
@@ -186,7 +188,7 @@ class Stage:
     @property
     def mammoth_target(self):
         """Cada cop n'hi ha mes: no s'acaben mai."""
-        grown = self.level.mammoth_start + int(self.elapsed / self.level.mammoth_every)
+        grown = self.level.mammoth_start + int((self.elapsed / self.level.mammoth_every) ** MAMMOTH_RAMP)
         return min(self.level.mammoth_max, grown)
 
     # ------------------------------------------------------------- events ---
@@ -194,6 +196,8 @@ class Stage:
         """Tecles que son un cop sol (no aguantades)."""
         if self.over:
             return self._handle_result_key(event)
+        if self.dance:
+            return None
         if event.key == pygame.K_UP:
             self.player.jump()
         elif event.key == pygame.K_z:
@@ -274,7 +278,7 @@ class Stage:
 
     # --------------------------------------------------------------- final --
     def game_over(self):
-        self.result = Result(False, self.score, self.elapsed)
+        self.result = Result(False, 0, self.elapsed)  # sense vides: 0 punts, no entra a la classificacio
 
     def stage_clear(self):
         penalty = HIT_TIME_PENALTY * self.hits
@@ -290,6 +294,9 @@ class Stage:
         if self.over:
             self._update_confetti()
             return
+        if self.dance:
+            self._update_dance()
+            return
         self.level.update(self.frames)
         self._update_player(controls)
         self._update_projectiles()
@@ -301,6 +308,17 @@ class Stage:
         self._update_timers()
         self.poofs = [p for p in self.poofs if p.update()]
         self.popups = [p for p in self.popups if p.update()]
+
+    def _update_dance(self):
+        """El 67 ja s'ha agafat: tot s'atura, el cavernicola balla i despres surt el final."""
+        self.player.vx = 0.0
+        self.player.physics(self.level.platforms)
+        self.poofs = [p for p in self.poofs if p.update()]
+        self.popups = [p for p in self.popups if p.update()]
+        self.dance -= 1
+        if self.dance <= 0:
+            self.player.celebrate = 0
+            self.stage_clear()
 
     def _update_player(self, controls):
         p = self.player
@@ -372,7 +390,9 @@ class Stage:
                                random.uniform(0.3, 0.5), from_sky=True)
         self.mammoths.append(new)
         self.poofs.append(Poof(new.centerx, new.centery))
-        self.spawn_gap = int(MAMMOTH_SPAWN_GAP * FPS)
+        shrink = min(1.0, self.elapsed / MAMMOTH_GAP_SHRINK)
+        gap = MAMMOTH_SPAWN_GAP + (MAMMOTH_SPAWN_GAP_MIN - MAMMOTH_SPAWN_GAP) * shrink
+        self.spawn_gap = int(gap * FPS)
 
     def _update_fruits(self):
         plats = self.level.platforms
@@ -405,10 +425,9 @@ class Stage:
         boom = self._boomerang_box()
         if self.player.rect.colliderect(self.gold) or (boom is not None and boom.colliderect(self.gold)):
             self.add_points(self.gold.points, self.gold.centerx, self.gold.y)
-            self.player.celebrate = 120
+            self.dance = self.player.celebrate = int(GOLD_DANCE * FPS)
             self.poofs.append(Poof(self.gold.centerx, self.gold.centery))
             self.gold = None
-            self.stage_clear()
             return
         if self.gold.leaving:
             self.poofs.append(Poof(self.gold.centerx, self.gold.centery))

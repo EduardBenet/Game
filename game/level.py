@@ -91,7 +91,7 @@ LEVELS = [
             {"x": 790, "height": 300},
         ],
         "fruites_terra": 5,
-        "mamuts_inici": 2,
+        "mamuts_inici": 1,
         "mamuts_cada": 18.0,
         "mamuts_max": 14,
     },
